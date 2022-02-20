@@ -47,7 +47,7 @@ const Login = () => {
 		// //how we get the error messaage it is error.response.data
 		// .catch((err) => toast.error(err.response.data));
 	};
-	if (state && state.token) router.push("/");
+	if (state && state.token) router.push("/user/dashboard");
 	return (
 		<div className="container-fluid">
 			<div className="row py-5 bg-default-image text-light">

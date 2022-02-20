@@ -65,6 +65,7 @@ const EditPost = () => {
 			setuploading(false);
 		}
 	};
+
 	return (
 		<UserRoute>
 			<div className="container-fluid">

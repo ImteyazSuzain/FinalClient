@@ -12,54 +12,33 @@ import {
 	DeleteOutlined,
 } from "@ant-design/icons";
 import { UserContext } from "../../context";
-import router from "next/router";
-const PostList = ({ posts, handleDelete }) => {
+import { imageSource } from "../../functions";
+import Link from "next/link";
+import Post from "./Post";
+
+const PostList = ({
+	posts,
+	handleDelete,
+	handlelike,
+	handleUnlike,
+	handleComment,
+	removeComment,
+}) => {
 	const [state] = useContext(UserContext);
 	const router = useRouter();
 	return (
 		<>
 			{posts &&
 				posts.map((post) => (
-					<div
+					<Post
 						key={post._id}
-						className="
-            card-mb-5"
-					>
-						<div className="card-header">
-							<Avatar size={40}>{post.postedBy.name[0]}</Avatar>
-							{"  "}
-
-							<span className="pt-2 ml-3" style={{ marginLeft: "2rem" }}>
-								{post.postedBy.name}
-							</span>
-							<span className="pt-2 ml-3" style={{ marginLeft: "2rem" }}>
-								{moment(post.createdAt).fromNow()}
-							</span>
-						</div>
-						<div className="card-body">{renderHTML(post.content)}</div>
-						<div className="card-footer">
-							{post.images && <PostImage url={post.images.url} />}
-							<div className="d-flex px-2">
-								<HeartOutlined className="text-danger pt-2 h5 px-2" />
-								<div className="pt-2 pe-3">likes</div>
-								<CommentOutlined className="text-danger pt-2 h5 px-2" />
-								<div className="pt-2 pe-3">Comments</div>
-								{state && state.user && state.user._id === post.postedBy._id && (
-									<>
-										<EditOutlined
-											onClick={() => router.push(`/user/post/${post._id}`)}
-											className="text-danger pt-2 h5 px-2 ms-auto"
-										/>
-										<DeleteOutlined
-											onClick={() => handleDelete(post)}
-											className="text-danger pt-2 h5 px-2 "
-										/>
-									</>
-								)}
-							</div>
-						</div>
-						<br></br>
-					</div>
+						post={post}
+						handleComment={handleComment}
+						handleDelete={handleDelete}
+						handleUnlike={handleUnlike}
+						handlelike={handlelike}
+						removeComment={removeComment}
+					/>
 				))}
 		</>
 	);

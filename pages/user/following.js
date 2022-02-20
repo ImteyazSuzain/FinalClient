@@ -7,6 +7,8 @@ import axios from "axios";
 import { RollbackOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import UserRoute from "../../components/routes/UserRoute";
+import { imageSource } from "../../functions";
 
 const Following = () => {
 	const [state, setState] = useContext(UserContext);
@@ -22,25 +24,13 @@ const Following = () => {
 			console.log(err);
 		}
 	};
-
-	useEffect(() => {
-		if (state && state.token) fetchfollowing();
-	}, [state && state.token]);
-
-	const imageSource = (user) => {
-		// console.log(user);
-		if (user.images) {
-			return user.images.url;
-		} else {
-			return "/images/default.webp";
-		}
-	};
 	const handleUnFollow = async (user) => {
 		try {
 			const { data } = await axios.put("/user-unfollow", { _id: user._id });
 			let auth = JSON.parse(localStorage.getItem("auth"));
-
+			console.log(data);
 			auth.user = data;
+			localStorage.setItem("auth", JSON.stringify(auth));
 			//update context
 			setState({ ...state, user: data });
 			//update people state
@@ -52,39 +42,46 @@ const Following = () => {
 			console.log(err);
 		}
 	};
+
+	useEffect(() => {
+		if (state && state.token) fetchfollowing();
+	}, [state && state.token]);
+
 	return (
-		<div className="container">
-			<div className=" row col-md-6 offset-md-3">
-				<List
-					itemLayout="horizontal"
-					dataSource={people}
-					renderItem={(user) => (
-						<List.Item>
-							<List.Item.Meta
-								avatar={<Avatar src={imageSource(user)} />}
-								title={
-									<div className="d-flex justify-content-between">
-										{user.username}{" "}
-										<span
-											style={{}}
-											onClick={() => handleUnFollow(user)}
-											className="text-danger click btn"
-										>
-											UnFollow
-										</span>
-									</div>
-								}
-							/>
-						</List.Item>
-					)}
-				/>
-				<Link href="/user/dashboard">
-					<a className="d-flex justify-content-center pt-3">
-						<RollbackOutlined />
-					</a>
-				</Link>
+		<UserRoute>
+			<div className="container">
+				<div className=" row col-md-6 offset-md-3">
+					<List
+						itemLayout="horizontal"
+						dataSource={people}
+						renderItem={(user) => (
+							<List.Item>
+								<List.Item.Meta
+									avatar={<Avatar src={imageSource(user)} />}
+									title={
+										<div className="d-flex justify-content-between">
+											{user.username}{" "}
+											<span
+												style={{}}
+												onClick={() => handleUnFollow(user)}
+												className="text-danger click btn"
+											>
+												UnFollow
+											</span>
+										</div>
+									}
+								/>
+							</List.Item>
+						)}
+					/>
+					<Link href="/user/dashboard">
+						<a className="d-flex justify-content-center pt-3">
+							<RollbackOutlined />
+						</a>
+					</Link>
+				</div>
 			</div>
-		</div>
+		</UserRoute>
 	);
 };
 export default Following;

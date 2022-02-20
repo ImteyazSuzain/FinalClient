@@ -25,7 +25,7 @@ const Nav = () => {
 				<script
 					src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 					integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-					crossorigin="anonymous"
+					crossOrigin="anonymous"
 				></script>
 			</Head>
 			<nav className="navbar navbar-expand-lg navbar-light bg-dark d-flex justify-content-between">
@@ -82,6 +82,19 @@ const Nav = () => {
 											</a>
 										</Link>
 									</li>
+									{state.user.role === "Admin" && (
+										<li className="nav-item">
+											<Link href="/admin">
+												<a
+													className={`nav-link text-light ${
+														current === "/admin" && "active"
+													}`}
+												>
+													Admin
+												</a>
+											</Link>
+										</li>
+									)}
 									<li className="nav-item">
 										<a onClick={logout} className="nav-link text-light ">
 											Logout
