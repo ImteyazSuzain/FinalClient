@@ -6,6 +6,8 @@ import PostPublic from "../components/cards/PostPublic";
 import Head from "next/head";
 import Link from "next/link";
 import io from "socket.io-client";
+import { useRouter } from "next/router";
+import education from "./education/education";
 
 const socket = io(
 	process.env.NEXT_PUBLIC_SOCKETIO,
@@ -16,9 +18,13 @@ const socket = io(
 );
 
 const Home = ({ posts }) => {
+	const router = useRouter();
 	const [state, setState] = useContext(UserContext);
 
 	const [newsFeed, setNewsFeed] = useState([]);
+	const education = () => {
+		router.push("/education/education");
+	};
 
 	// useEffect(() => {
 	//   // console.log("SOCKETIO ON JOIN", socket);
@@ -80,6 +86,7 @@ const Home = ({ posts }) => {
 						</div>
 					))}
 				</div>
+				<button onClick={() => education()}>Education</button>
 			</div>
 		</>
 	);

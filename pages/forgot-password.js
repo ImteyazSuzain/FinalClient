@@ -7,9 +7,7 @@ import { UserContext } from "../context";
 import ForgotPasswordForm from "../components/forms/ForgotPasswordForm";
 import { useRouter } from "next/router";
 const ForgotPassword = () => {
-	const [newPassword, setNewPassword] = useState("");
 	const [email, setemail] = useState("");
-	const [secret, setsecret] = useState("");
 	const [ok, setOk] = useState(false);
 	const [loading, setloading] = useState(false);
 	const [state, setState] = useContext(UserContext);
@@ -21,11 +19,7 @@ const ForgotPassword = () => {
 			setloading(true);
 			const { data } = await axios.post(`/forgot-password`, {
 				email,
-				newPassword,
-				secret,
 			});
-
-			console.log("forgot password res => ", data);
 
 			if (data.error) {
 				toast.error(data.error);
@@ -34,8 +28,7 @@ const ForgotPassword = () => {
 
 			if (data.success) {
 				setemail("");
-				setNewPassword("");
-				setsecret("");
+
 				setOk(true);
 				setloading(false);
 			}
@@ -44,7 +37,7 @@ const ForgotPassword = () => {
 			setloading(false);
 		}
 	};
-	if (state && state.token) router.push("/");
+
 	return (
 		<div className="container-fluid">
 			<div className="row py-5 bg-default-image text-light">
@@ -60,10 +53,6 @@ const ForgotPassword = () => {
 						handleSubmit={handleSubmit}
 						email={email}
 						setemail={setemail}
-						newPassword={newPassword}
-						setNewPassword={setNewPassword}
-						secret={secret}
-						setsecret={setsecret}
 						loading={loading}
 					/>
 				</div>
@@ -74,12 +63,12 @@ const ForgotPassword = () => {
 						title="Congratulations"
 						visible={ok}
 						onCancel={() => setOk(false)}
-						footer="i am footer"
+						footer=""
 					>
-						<p>Congrats! You can login with your new password</p>
-						<Link href="/login">
+						<p>Congrats! Password Reset link sent to your registered email</p>
+						{/* <Link href="/login">
 							<a className="btn btn-primary btn-sm">Login</a>
-						</Link>
+						</Link> */}
 					</Modal>
 				</div>
 			</div>

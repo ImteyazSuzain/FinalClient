@@ -11,7 +11,7 @@ const EditPost = () => {
 
 	const [post, setPost] = useState({});
 	const router = useRouter();
-	// console.log("router", router);
+	console.log("router", router);
 	const _id = router.query._id;
 	useEffect(() => {
 		if (_id) fetchPost();

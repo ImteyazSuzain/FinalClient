@@ -27,6 +27,7 @@ const Register = () => {
 				password,
 				secret,
 			});
+
 			if (data.error) {
 				toast.error(data.error);
 				setloading(false);
@@ -81,12 +82,12 @@ const Register = () => {
 						title="Congratulations"
 						visible={ok}
 						onCancel={() => setOk(false)}
-						footer="i am footer"
+						footer=""
 					>
-						<p>You have successfully registered</p>
-						<Link href="/">
+						<p>A confirmation link sent to your registered email </p>
+						{/* <Link href="/">
 							<a className="btn btn-primary btn-sm">Login</a>
-						</Link>
+						</Link> */}
 					</Modal>
 				</div>
 			</div>
